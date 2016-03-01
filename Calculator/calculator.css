@@ -1,0 +1,75 @@
+body, html 
+{
+  width: 100%;
+  background-image:url("https://images.duckduckgo.com/iu/?u=http%3A%2F%2Fdesignerfied.com%2Fwp-content%2Fuploads%2F2008%2F03%2Fgrunge-and-japanese-foliagep.jpg&f=1");
+  background-position: center center;
+  background-size:cover;
+}
+
+.calculator 
+{
+  width: 270px;
+  height: 400px;
+  background-color: #2a2d2d;
+  margin: 0 auto;
+  border-radius:25px;
+  text-align: center;
+}
+
+.calculator #tagline 
+{
+  color: #969194;
+  padding-top:10px;
+  font-family: 'Pacifico';
+  font-size: 2em;
+}
+
+.calculator input[type='text'] 
+{
+  width: 85%;
+  font-size: 2em;
+  direction: rtl;
+  font-family: 'Montserrat';
+  padding-right: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.calculator .row button 
+{
+  width: 40px;
+  height: 40px;
+  border-top: 2px solid #7c748f;
+  background-image: -webkit-linear-gradient( top , #4B4657, #332f3b);
+  background-image: linear-gradient(to bottom, #4B4657, #332f3b);
+  color: white;
+  font-size: 1.5em;
+  border-radius: 20%;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 8px;
+  margin-top:8px;
+}
+
+.calculator .row .ctrl 
+{
+  border: 1px solid #CC4E5F;
+  border-top: 2px solid #e39da7;
+  background-image: -webkit-linear-gradient( top , #CC4E5F, #b33445);
+  background-image: linear-gradient(to bottom, #CC4E5F, #b33445);
+}
+
+.calculator .row .ctrl:active 
+{
+  background-image: -webkit-linear-gradient( bottom , #CC4E5F, #b33445);
+  background-image: linear-gradient(to top, #CC4E5F, #b33445);
+}
+
+.calculator .row .tall 
+{
+  height: 100px;
+  float: right;
+  margin-right: 50px;
+  margin-left: -33px;
+  margin-top:-50px;
+}

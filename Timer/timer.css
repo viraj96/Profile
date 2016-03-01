@@ -1,0 +1,140 @@
+p 
+{
+  font-size : 30px;
+  text-align : center;
+  text-transform : uppercase;
+  color : red;
+  font-family : Montserrat;
+}
+
+.type
+{
+  float: left;
+  position: relative;
+  margin: 150px 100px -450px 350px;
+  width: 425px;
+  color: #E0F7FA;
+  font-size: 7em;
+  text-align: center;
+  font-family: Lobster Two;
+}
+
+.session 
+{
+  font-size: .8em;
+  display: flex;
+  justify-content : center;
+}
+
+.session .breakCtrl, .session .sessionCtrl 
+{
+  display: inline;
+  padding-left: 30px;
+  padding-right: 30px;
+}
+
+.session .time1 
+{
+  font-size: 3em;
+  padding-left: 10px;
+  padding-right: 10px;  
+  color:yellow;
+  font-family:Luckiest Guy;
+}
+
+.session .time2 
+{
+  font-size: 3em;
+  padding-left: 10px;
+  padding-right: 10px;
+  color:yellow;
+  font-family:Luckiest Guy;
+}
+
+#countdown 
+{
+  float: left;
+  position: relative;
+  margin: 300px 0px -450px 350px;
+  margin-top:310px;
+  width: 425px;
+  color: #E0F7FA;
+  font-size: 7em;
+  text-align: center;
+  font-family: 'Nova Mono', Monospace;
+  cursor: pointer;
+}
+
+body .name 
+{
+  display: block;
+  font-family: Pacifico, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 5.2em;
+  font-weight: 500;
+}
+
+hr.star-light
+{
+  margin: 25px auto 30px;
+  padding: 0;
+  max-width: 250px;
+  border: 0;
+  border-top: solid 5px;
+  text-align: center;
+}
+
+hr.star-light:after
+{
+  content: "\f005";
+  display: inline-block;
+  position: relative;
+  top: -.8em;
+  padding: 0 .25em;
+  font-family: FontAwesome;
+  font-size: 2em;
+}
+
+hr.star-light 
+{
+  border-color: #fff;
+}
+
+hr.star-light:after 
+{
+  color: #fff;
+  background-color: #18bc9c;
+}
+
+.btn-group 
+{
+  position: absolute;
+  left: 463px;
+  top: 75%;
+  color: white;
+}
+
+#timer 
+{
+  height: 950px;
+  width: 950px;
+  margin-left: 85px;
+  border-radius: 50%;
+  transition: stroke-dasharray 0.1s;
+  transform: rotate(-90deg);
+}
+
+#circle-base 
+{
+  fill: none;
+  stroke: #212121;
+  stroke-width: 0.25em;
+}
+
+#circle-fill 
+{
+  fill: none;
+  stroke: #11A9AC;
+  stroke-width: 0.2em;
+  stroke-dashoffset: 0;
+  transition: stroke-dasharray 0.1s;
+}
