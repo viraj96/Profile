@@ -12,3 +12,5 @@
                       program to make my life easier. Hence this was created. You can simply download the file and run it in terminal just like any 
                       cpp file. Keep in mind that the input file with the code contains a puzzle of the level EVIL. So, inorder to test it keep
                       making changes to the input file by introducing even FIENDISH level puzzles.</p>
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/viraj96/profile/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
