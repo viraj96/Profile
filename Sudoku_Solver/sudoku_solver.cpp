@@ -3,8 +3,8 @@
 / This code below solves a sudoku of any      \
 | level except the one which may be 	       |
 | invalid, duh!. I have assumed the puzzle to  |
-| be of the size 9*9.					       |
-\ 						    -- Viraj Parimi   /
+| be of the size 9*9.			       |
+\ 			    -- Viraj Parimi   /
  --------------------------------------------
         \    ,-^-.
          \   !oYo!
