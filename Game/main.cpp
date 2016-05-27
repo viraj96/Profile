@@ -26,7 +26,7 @@ Uint8 grass_Values2[maxw_grass][maxh_grass];
 class player;
 class car;
 class obstacle;
-time_t timer1, timer2;
+time_t timer1, timer2, timer3;
 struct gamer{
 	std::string name;
 	double finaltime;
@@ -542,12 +542,18 @@ int collision(car c, obstacle o)
 void maingame(car c, obstacle obj1, obstacle obj2, player person)
 {
 	char move;
-	double seconds;
-	int i = 1;
+	double seconds, score;
+	int i = 1, position;
 	int collision_with_obj1 = -1,collision_with_obj2 = -1;
 	time(&timer1);
 	while(collision_with_obj1 != 1 && collision_with_obj2 != 1)
 	{
+		time(&timer3);
+		score = abs(difftime(timer1,timer3));
+		cout << "Score = " << score << "\n";
+		position = print("Score = ",1150,10,RGB_Black);
+		position = print(score,1230,10,RGB_Red);
+		redraw();
 		cls();
 		makeClouds();
 		makeGrass();
