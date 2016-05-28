@@ -23,9 +23,11 @@ double grass_Noise2[maxw_grass][maxh_grass];
 Uint8 clouds_Values[width_clouds][height_clouds];
 Uint8 grass_Values1[maxw_grass][maxh_grass];
 Uint8 grass_Values2[maxw_grass][maxh_grass];
+int remember = 0; //remembers car location correspoding to missile
 class player;
 class car;
 class obstacle;
+class missile;
 time_t timer1, timer2, timer3;
 struct gamer{
 	std::string name;
@@ -443,6 +445,7 @@ class car
 {
 	int cx,cy;
 	friend int collision(car,obstacle);
+	friend void drawmissile(car,missile,int,bool);
 	public:
 		car();
 		void constructcar();
@@ -482,18 +485,19 @@ void  car::movecar(char move)
 class obstacle
 {
 	int obx,oby;
+	friend int destroy(missile,obstacle);
 	public:
 		obstacle();
 		friend int collision(car,obstacle);
 		void incrementob(int);
-		void drawobstacle();
+		void drawobstacle(int);
 };
 obstacle::obstacle()
 {
 	obx = 20;
 	oby = 1;
 }
-void obstacle::drawobstacle()
+void obstacle::drawobstacle(int bomb)
 {
 	if(oby >= 350)
 	{
@@ -515,6 +519,10 @@ void obstacle::drawobstacle()
 			obx = 1500;
 		}
 	}
+	if(bomb)
+	{
+		obx = 1500;
+	}
 	drawCircle(440+obx,350+oby,25,RGB_Yellow);
 }
 void obstacle::incrementob(int n)
@@ -528,9 +536,53 @@ void obstacle::incrementob(int n)
 		oby += 25;
 	}
 }
-int collision(car c, obstacle o)
+class missile
 {
-	if(o.obx+440 >= c.cx+420 && o.obx+440 <= c.cx+520 && o.oby+350+15 >= c.cy && o.oby+350-15 <= c.cy+40)
+	int mx,my;
+	public:
+		missile();
+		friend int destroy(missile,obstacle);
+		friend void drawmissile(car,missile,int,bool);
+		void incrementmissile();
+};
+missile::missile()
+{
+	mx = 280;
+	my = 620;
+}
+void drawmissile(car c, missile m, int bomb, bool draw)
+{
+	if(c.cx == 0 && draw)
+	{
+		m.mx = 0;
+		remember = 1;
+	}
+	else if(draw)
+	{
+		m.mx = 280;
+	}
+	else if(remember == 1 && m.my >= 302)
+	{
+		m.mx = 0;
+	}
+	if(bomb)
+	{
+		m.mx = 1500;
+	}
+	cout << "m.mx = " << m.mx << endl;
+	drawCircle(460+m.mx,m.my-10,10,RGB_Red);
+}
+void missile::incrementmissile()
+{
+	if(my <= 302+25)
+	{
+		mx = 1500;
+	}
+	my -= 25;
+}
+int destroy(missile m, obstacle o)
+{
+	if(m.mx+460 <= o.obx+440 && m.my-10-10 <= o.oby+350)
 	{
 		return 1;
 	}
@@ -539,20 +591,42 @@ int collision(car c, obstacle o)
 		return 0;
 	}
 }
-void maingame(car c, obstacle obj1, obstacle obj2, player person)
+int collision(car c, obstacle o)
+{
+	if(o.obx+440 >= c.cx+420 && o.obx+440 <= c.cx+520 && o.oby+350+25 >= c.cy && o.oby+350-25 <= c.cy+40)
+	{
+		return 1;
+	}
+	else
+	{
+		return 0;
+	}
+}
+void maingame(car c, obstacle obj1, obstacle obj2, player person, missile m)
 {
 	char move;
+	bool launch = false;
 	double seconds, score;
-	int i = 1, position;
-	int collision_with_obj1 = -1,collision_with_obj2 = -1;
+	int i = 1, position, draw = 1;
+	int collision_with_obj1 = -1, collision_with_obj2 = -1;
 	time(&timer1);
 	while(collision_with_obj1 != 1 && collision_with_obj2 != 1)
 	{
+		int destroy_obj1 = 0, destroy_obj2 = 0;
 		time(&timer3);
 		score = abs(difftime(timer1,timer3));
 		cout << "Score = " << score << "\n";
 		position = print("Score = ",1150,10,RGB_Black);
+		position = print("Missiles = ",1150,20,RGB_Black);
 		position = print(score,1230,10,RGB_Red);
+		if(!launch)
+		{
+			position = print("1",1240,20,RGB_Red);
+		}
+		else
+		{
+			position = print("0",1240,20,RGB_Red);
+		}
 		redraw();
 		cls();
 		makeClouds();
@@ -569,6 +643,11 @@ void maingame(car c, obstacle obj1, obstacle obj2, player person)
 			move = 'd';
 			c.movecar(move);
 		}
+		else if(keyPressed(SDLK_w))
+		{
+			drawmissile(c,m,0,true);
+			launch = true;
+		}
 		c.constructcar();
 		for(int j = 0; j <= 400; j += 30)
 		{
@@ -582,15 +661,36 @@ void maingame(car c, obstacle obj1, obstacle obj2, player person)
 			}
 		}
 		i += 20;
-		obj1.drawobstacle();
-		obj2.drawobstacle();
+		if(launch)
+		{
+			destroy_obj1 = destroy(m,obj1);
+			destroy_obj2 = destroy(m,obj2);
+		}
+		obj1.drawobstacle(destroy_obj1);
+		obj2.drawobstacle(destroy_obj2);
 		collision_with_obj1 = collision(c,obj1);
 		obj1.incrementob(1);
 		collision_with_obj2 = collision(c,obj2);
 		obj2.incrementob(2);
+		if(launch && !destroy_obj1 && draw != 1)
+		{
+			m.incrementmissile();
+			drawmissile(c,m,destroy_obj1,false);
+		}
+		else if(launch && !destroy_obj2 && draw != 1)
+		{
+			m.incrementmissile();
+			drawmissile(c,m,destroy_obj1,false);
+		}
+		else if(launch && draw != 1)
+		{
+			m.incrementmissile();
+			drawmissile(c,m,0,false);
+		}
+		draw++;
 		redraw();
 		cout << "person.ftd() = " << person.ftd() << endl;
-		sleep((100 - person.ftd())/2000); //can go negative
+		sleep((100 - person.ftd())/1000); //can go negative
 		person.ftimedelay();
 	}
 	cls();
@@ -605,6 +705,7 @@ int main()
 	car lamborghini;
 	obstacle object_1,object_2;
 	player person;
+	missile bomb;
 	int color;
 	std::string line;
 	std::ifstream leaderboard;
@@ -617,7 +718,7 @@ int main()
 		{
 			case 1:		clouds();
 						grass();
-						maingame(lamborghini,object_1,object_2,person);
+						maingame(lamborghini,object_1,object_2,person,bomb);
 						break;
 			case 2:		while(!done())
 						{
@@ -625,8 +726,13 @@ int main()
 							int position;
 							position = print("D --> TURN RIGHT",500,300,RGB_Yellow);
 							position = print("A --> TURN LEFT",500,320,RGB_Yellow);
-							position = print("OBJECTIVE --> AVOID ALL THE OBSTACLES",500,340,RGB_Yellow);
-							position = print("Press Esc key to go back",500,500,RGB_Yellow);
+							position = print("W --> FIRE MISSILE",500,340,RGB_Yellow);
+							position = print("OBJECTIVE --> AVOID ALL THE OBSTACLES.",500,360,RGB_Yellow);
+							position = print("YOU WILL BE ABLE TO USE ONLY ONE MISSILE",580,380,RGB_Yellow); 
+							position = print("DURING THE GAME AND THAT WOULD REMOVE",580,400,RGB_Yellow);
+							position = print("ALL OBSTACLES IN FRONT OF IT.",580,420,RGB_Yellow);
+							position = print("SO USE IT WISELY!!!",580,440,RGB_Yellow);
+							position = print("Press Esc key to go back",500,550,RGB_Yellow);
 							redraw();
 						}
 						break;
