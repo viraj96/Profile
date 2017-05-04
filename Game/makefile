@@ -1,6 +1,6 @@
 CC = g++
 CFLAGS = -c -O3
-CLINK_FLAGS = -lSDL
+CLINK_FLAGS = -lSDL -v
 all : game
 
 game : main.o quickcg.o

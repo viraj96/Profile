@@ -330,7 +330,7 @@ void design()
 }
 void startscreen()
 {
-	int position;
+	int position = 0;
 	position = print("1. NEW GAME",500,300,RGB_Yellow);
 	position = print("2. HOW TO PLAY",500,320,RGB_Yellow);
 	position = print("3. LEADER BOARD",500,340,RGB_Yellow);
@@ -706,7 +706,6 @@ int main()
 	obstacle object_1,object_2;
 	player person;
 	missile bomb;
-	int color;
 	std::string line;
 	std::ifstream leaderboard;
 	do
